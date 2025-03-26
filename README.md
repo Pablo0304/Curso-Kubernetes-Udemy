@@ -108,6 +108,12 @@ kubectl logs <nombre-pod>
 ```
 Muestra los logs del contenedor en un Pod.
 
+```bash
+kubectl exec -it nginx1 -- /bin/bash
+```
+Permite conectarse al shell del Pod `nginx1`.
+
+
 ---
 
 ### 📁 Configuración y Contextos
