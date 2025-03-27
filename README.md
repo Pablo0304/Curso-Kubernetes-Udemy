@@ -72,7 +72,7 @@ Elimina todo lo que no se esté usando: contenedores, redes, imágenes y cachés
 
 ## ☸️ Kubernetes – Comandos Básicos
 
-### 📦 Pods
+### ⚙️ Recursos
 
 ```bash
 kubectl run nginx1 --image=nginx
@@ -88,10 +88,6 @@ Lista todos los Pods en el espacio de nombres actual.
 kubectl delete pod <nombre>
 ```
 Elimina un Pod.
-
----
-
-### ⚙️ Recursos
 
 ```bash
 kubectl get all
@@ -113,6 +109,25 @@ kubectl exec -it nginx1 -- /bin/bash
 ```
 Permite conectarse al shell del Pod `nginx1`.
 
+```bash
+kubectl proxy
+```
+Para acceder a la API de Kubernetes a través de un servidor proxy local.
+
+```bash
+kubectl expose pod nginx1 --port=80 --name=nginx1-svc --type=LoadBalancer
+```
+Este comando crea un servicio de tipo LoadBalancer para exponer el Pod `nginx1` en el puerto 80
+
+```bash
+kubectl get svc
+```
+Este comando lista todos los servicios disponibles en el clúster de Kubernetes, mostrando detalles como la IP externa, el puerto, y el tipo de servicio.
+
+```bash
+kubectl port-forward nginx 9999:80
+```
+Por si no quieres crear servicios, puedes usar el port-forward para el desarrollo.
 
 ---
 
@@ -161,6 +176,11 @@ Abre el panel gráfico de Kubernetes en tu navegador.
 minikube ip
 ```
 Muestra la IP del clúster local.
+
+```bash
+minikube ssh
+```
+Permite iniciar una sesión SSH en la máquina virtual que Minikube está utilizando para simular un clúster de Kubernetes local.
 
 ---
 
