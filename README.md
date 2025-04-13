@@ -85,9 +85,27 @@ kubectl get pods
 Lista todos los Pods en el espacio de nombres actual.
 
 ```bash
-kubectl delete pod <nombre>
+kubectl get pod nginx -o yaml
 ```
-Elimina un Pod.
+Da información sobre el pod `nginx` con formato YAML.
+
+```bash
+kubectl delete pod <nombre> --grace-period=5
+kubectl delete pod/<nombre> --grace-period=5
+```
+Dos formas de eliminar un Pod.  
+El `grace-period` indica el tiempo que esperará para eliminarlo (en segundos).  
+En caso de problemas, el flag `--now` no espera a los procesos pendientes y elimina el pod.
+
+```bash
+kubectl delete pods --all
+```
+⚠️ ¡CUIDADO! ⚠️ => Elimina TODOS los pods.
+
+```bash
+kubectl delete all --all
+```
+⚠️ ¡CUIDADO! ⚠️ => Elimina TODO.
 
 ```bash
 kubectl get all
@@ -96,18 +114,22 @@ Muestra todos los recursos: Pods, Services, Deployments, etc.
 
 ```bash
 kubectl describe pod <nombre>
+kubectl describe pod/<nombre>
 ```
-Muestra detalles técnicos de un Pod (eventos, configuración, etc).
+Dos frmas de mostrar detalles técnicos de un Pod (eventos, configuración, etc).
 
 ```bash
 kubectl logs <nombre-pod>
 ```
-Muestra los logs del contenedor en un Pod.
+Muestra los logs del contenedor.  
+Otra opción útil es el `-f` (follow) para ver los logs en tiempo real.  
+En caso de tener varios recursos, solo mostrará los logs del primero, podemos mostrar los logs de un recurso concreto con `-c <nombre_Recurso>`.
 
 ```bash
 kubectl exec -it nginx1 -- /bin/bash
 ```
-Permite conectarse al shell del Pod `nginx1`.
+Permite conectarse al shell del Pod `nginx1`.  
+En caso de tener varios recursos, podemos elegir un recurso concreto con `-c <nombre_Recurso>`.
 
 ```bash
 kubectl proxy
@@ -147,6 +169,16 @@ Muestra el contexto actual (a qué clúster estás conectado).
 kubectl config use-context <nombre>
 ```
 Cambia al contexto indicado.
+
+```bash
+kubectl apply -f <file>.yaml
+```
+Aplica una configuración declarativa a un recurso en el clúster. Si el recurso no existe, lo crea; si ya existe, lo actualiza.
+
+```bash
+kubectl apply -f ./folder/
+```
+Aplica todos los archivos YAML contenidos en una carpeta (ideal para múltiples recursos como Pods, Services, Deployments, ConfigMaps, etc.).
 
 ---
 
