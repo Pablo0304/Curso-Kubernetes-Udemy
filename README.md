@@ -82,12 +82,13 @@ Crea un Pod llamado `nginx1` con la imagen de NGINX.
 ```bash
 kubectl get pods
 ```
-Lista todos los Pods en el espacio de nombres actual.
+Lista todos los `Pods` en el espacio de nombres actual.
 
 ```bash
 kubectl get pod nginx -o yaml
 ```
-Da información sobre el pod `nginx` con formato YAML.
+Da información sobre el pod `nginx` con formato YAML.  
+El flag `--show-labels` da información sobre los `labels` configurados en el archivo YAML (o con el flag `-L <nombre_Label1>,<nombre_Label2>` para verlos en otras columnas).
 
 ```bash
 kubectl delete pod <nombre> --grace-period=5
@@ -100,7 +101,7 @@ En caso de problemas, el flag `--now` no espera a los procesos pendientes y elim
 ```bash
 kubectl delete pods --all
 ```
-⚠️ ¡CUIDADO! ⚠️ => Elimina TODOS los pods.
+⚠️ ¡CUIDADO! ⚠️ => Elimina TODOS los `Pods`.
 
 ```bash
 kubectl delete all --all
@@ -110,7 +111,7 @@ kubectl delete all --all
 ```bash
 kubectl get all
 ```
-Muestra todos los recursos: Pods, Services, Deployments, etc.
+Muestra todos los recursos: `Pods`, `Services`, `Deployments`, etc.
 
 ```bash
 kubectl describe pod <nombre>
@@ -178,7 +179,17 @@ Aplica una configuración declarativa a un recurso en el clúster. Si el recurso
 ```bash
 kubectl apply -f ./folder/
 ```
-Aplica todos los archivos YAML contenidos en una carpeta (ideal para múltiples recursos como Pods, Services, Deployments, ConfigMaps, etc.).
+Aplica todos los archivos YAML contenidos en una carpeta (ideal para múltiples recursos como `Pods`, `Services`, `Deployments`, `ConfigMaps`, etc.).
+
+```bash
+kubectl label pod <nombre_Pod> <label_Name>=<label_Value>
+kubectl label pod <nombre_Pod> <label_Name>-
+```
+Añade o borra nuevos `labels` en la configuración del Pod.  
+Para editar uno ya creado se usa el flag `--overwrite`.  
+- Selectores:  
+    - Con el flag `-l <label_Name>=<label_Value>` (o `!=`) cuando hacemos CASI CUALQUIER COMANDO, podremos filtrar todos los `Pods` por `labels` (añadir el flag `--show-labels` para poder ver los `labels`).
+    - También se puede con `-l '<label_Name> in(<label_Value1>,<label_Value2>)'` o `notin(...)` para facilitar la lectura del comando.
 
 ---
 

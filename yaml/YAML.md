@@ -24,6 +24,14 @@ Ejemplos: `Pod`, `Deployment`, `Service`, `Job`.
 Contiene la información básica del recurso.  
 Ejemplos: `name`, `namespace`, `labels` y `annotations`.
 
+#### 📁 Labels
+Se añaden pares `clave:valor` que se utilizan para organizar, seleccionar y filtrar objetos (como pods, servicios, deployments, etc.) de forma flexible.
+
+#### 📁 Annotations
+Se añaden pares `clave:valor`.  
+Son exactamente como los labels, pero con la finalidad de almacenar metadatos más complejos o menos estructurados que no se usan para selección.  
+No sirven para filtrar ni seleccionar.
+
 ---
 
 ### 📁 Spec
