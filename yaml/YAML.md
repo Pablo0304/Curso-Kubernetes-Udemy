@@ -6,8 +6,6 @@ Este archivo contiene información referente a la configuración de archivos **Y
 
 ## ⚙️ YAML – Atributos
 
----
-
 ### 📁 ApiVersion
 Indica la versión de la API de Kubernetes que se usará para interpretar el recurso.  
 Ejemplos: `v1`, `apps/v1`, `batch/v1`.

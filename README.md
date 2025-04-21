@@ -72,7 +72,10 @@ Elimina todo lo que no se esté usando: contenedores, redes, imágenes y cachés
 
 ## ☸️ Kubernetes – Comandos Básicos
 
-### ⚙️ Recursos
+### ⚙️ Workloads
+
+#### Pod
+DESCRIPCIÓN: Unidad básica que ejecuta contenedores.
 
 ```bash
 kubectl run nginx1 --image=nginx
@@ -152,6 +155,43 @@ kubectl port-forward nginx 9999:80
 ```
 Por si no quieres crear servicios, puedes usar el port-forward para el desarrollo.
 
+#### ReplicaSet
+DESCRIPCIÓN: Mantiene un número fijo de Pods idénticos.
+```bash
+kubectl create rs <replica_Set_Name>
+```
+Crea un `ReplicaSet`.
+
+#### Deployment
+DESCRIPCIÓN: Administra ReplicaSets y permite actualizaciones de versión.  
+```bash
+kubectl create deployment <deployment_Name>
+```
+Crea un `Deployment`.
+
+```bash
+kubectl get deploy
+```
+Devuelve información sobre el `Deployment`.
+
+```bash
+kubectl scale deploy <resource_Name> --replicas=5
+```
+Escalar un deployment.  
+⚠️ ¡CUIDADO! ⚠️ => No se edita el archivo en local.
+
+#### StatefulSet
+DESCRIPCIÓN: Igual que Deployment pero con identidad persistente y almacenamiento estable (ideal para BBDD).
+
+#### DaemonSet
+DESCRIPCIÓN: Ejecuta un Pod en cada nodo del clúster, útil para logs o monitoreo.
+
+#### Job
+DESCRIPCIÓN: Ejecuta una tarea una vez hasta que termine correctamente.
+
+#### CronJob
+DESCRIPCIÓN: Ejecuta Jobs de forma programada.
+
 ---
 
 ### 📁 Configuración y Contextos
@@ -180,6 +220,15 @@ Aplica una configuración declarativa a un recurso en el clúster. Si el recurso
 kubectl apply -f ./folder/
 ```
 Aplica todos los archivos YAML contenidos en una carpeta (ideal para múltiples recursos como `Pods`, `Services`, `Deployments`, `ConfigMaps`, etc.).
+
+```bash
+kubectl edit <resourde_Type> <resource_Name>
+```
+Es una forma de editar `al vuelo` un recurso.  
+⚠️ ¡CUIDADO! ⚠️ =>
+- No se edita el archivo en local.
+- Si hay errores de sintaxis puede haber problemas en el funcionamiento del recurso.
+- Al guardar el archivo se aplica la configuración directamente sin confirmación extra.
 
 ```bash
 kubectl label pod <nombre_Pod> <label_Name>=<label_Value>
