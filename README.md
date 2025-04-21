@@ -72,7 +72,7 @@ Elimina todo lo que no se esté usando: contenedores, redes, imágenes y cachés
 
 ## ☸️ Kubernetes – Comandos Básicos
 
-### ⚙️ Workloads
+### ⚙️ Workloads (Aplication Resources)
 
 #### Pod
 DESCRIPCIÓN: Unidad básica que ejecuta contenedores.
@@ -141,16 +141,6 @@ kubectl proxy
 Para acceder a la API de Kubernetes a través de un servidor proxy local.
 
 ```bash
-kubectl expose pod nginx1 --port=80 --name=nginx1-svc --type=LoadBalancer
-```
-Este comando crea un servicio de tipo LoadBalancer para exponer el Pod `nginx1` en el puerto 80
-
-```bash
-kubectl get svc
-```
-Este comando lista todos los servicios disponibles en el clúster de Kubernetes, mostrando detalles como la IP externa, el puerto, y el tipo de servicio.
-
-```bash
 kubectl port-forward nginx 9999:80
 ```
 Por si no quieres crear servicios, puedes usar el port-forward para el desarrollo.
@@ -194,7 +184,31 @@ DESCRIPCIÓN: Ejecuta Jobs de forma programada.
 
 ---
 
-### 📁 Configuración y Contextos
+### ⚙️ Recursos de Red (Networking)
+
+#### Services
+Middleware entre el cliente y los `Application Resources`.  
+
+```bash
+kubectl expose pod nginx1 --port=80 --name=nginx1-svc --type=LoadBalancer
+```
+Este comando crea un servicio de tipo `LoadBalancer` para exponer el Pod `nginx1` en el puerto 80.  
+Se puede cambiar el tipo para crear un `Cluster IP`, `Node Port` o `Load Balancer`.  
+Se puede usar para otros tipos de recursos.
+
+```bash
+kubectl get svc
+```
+Este comando lista todos los servicios disponibles en el clúster de Kubernetes, mostrando detalles como la IP externa, el puerto, y el tipo de servicio.
+
+##### Tipos
+- Cluster IP: Accesible solo desde dentro del cluster.
+- Node Port: Similar a `Cluster IP` pero para fuera de la red.
+- Load Balancer: Similar a `Node Port` pero integrado con balanceadores de carga de terceros (AWS, Azure,...).
+
+---
+
+### ⚙️ Configuración y Contextos
 
 ```bash
 kubectl config view
@@ -242,7 +256,7 @@ Para editar uno ya creado se usa el flag `--overwrite`.
 
 ---
 
-### 🧪 Minikube
+## 🧪 Minikube
 
 ```bash
 minikube start
