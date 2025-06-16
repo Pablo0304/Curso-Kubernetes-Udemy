@@ -227,6 +227,11 @@ kubectl config use-context <nombre>
 Cambia al contexto indicado.
 
 ```bash
+kubectl config set-context --current --namespace=pro
+```
+Modifica o crea un contexto (en este caso cambiamos el `namespace`).
+
+```bash
 kubectl apply -f <file>.yaml
 ```
 Aplica una configuración declarativa a un recurso en el clúster. Si el recurso no existe, lo crea; si ya existe, lo actualiza.
@@ -293,6 +298,13 @@ Muestra todos los recursos dentro del `namespace` indicado.
 kubectl config set-context --current --namespace=<nombre>
 ```
 Configura el `namespace` por defecto para tu contexto actual.
+
+```bash
+kubectl get events --namespace pro --field-selector type="Warning" -w
+```
+Muestra los eventos de ese `namespace`.  
+En este caso se puede filtrar (`--field-selector type="Warning"`) por las columnas que se requiera (`LAST SEEN`, `TYPE`, `REASON`, `OBJECT` o `MESSAGE`).  
+Con el flag `-w` lo dejaremos escuchando eventos.
 
 ---
 
