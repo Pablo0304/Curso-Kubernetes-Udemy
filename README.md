@@ -91,7 +91,8 @@ Lista todos los `Pods` en el espacio de nombres actual.
 kubectl get pod nginx -o yaml
 ```
 Da información sobre el pod `nginx` con formato YAML.  
-El flag `--show-labels` da información sobre los `labels` configurados en el archivo YAML (o con el flag `-L <nombre_Label1>,<nombre_Label2>` para verlos en otras columnas).
+El flag `--show-labels` da información sobre los `labels` configurados en el archivo YAML (o con el flag `-L <nombre_Label1>,<nombre_Label2>` para verlos en otras columnas).  
+El flag `-n <nombre_namespace>` da información sobre los recursos de ese tipo que se ubican en el `namespace` indicado.
 
 ```bash
 kubectl delete pod <nombre> --grace-period=5
@@ -193,7 +194,7 @@ Middleware entre el cliente y los `Application Resources`.
 kubectl expose pod nginx1 --port=80 --name=nginx1-svc --type=LoadBalancer
 ```
 Este comando crea un servicio de tipo `LoadBalancer` para exponer el Pod `nginx1` en el puerto 80.  
-Se puede cambiar el tipo para crear un `Cluster IP`, `Node Port` o `Load Balancer`.  
+Se puede cambiar el tipo para crear un `Cluster IP`(este es el servicio por defecto si no se pone nada), `Node Port` o `Load Balancer`(solo funciona en entornos Cloud).  
 Se puede usar para otros tipos de recursos.
 
 ```bash
@@ -253,6 +254,63 @@ Para editar uno ya creado se usa el flag `--overwrite`.
 - Selectores:  
     - Con el flag `-l <label_Name>=<label_Value>` (o `!=`) cuando hacemos CASI CUALQUIER COMANDO, podremos filtrar todos los `Pods` por `labels` (añadir el flag `--show-labels` para poder ver los `labels`).
     - También se puede con `-l '<label_Name> in(<label_Value1>,<label_Value2>)'` o `notin(...)` para facilitar la lectura del comando.
+
+
+---
+
+### ⚙️ Namespaces
+
+Los `namespaces` permiten dividir lógicamente los recursos dentro de un mismo clúster de Kubernetes. Son útiles para separar entornos (`producción`, `desarrollo`, `test`), evitar conflictos de nombres y aplicar políticas específicas a grupos de recursos.
+
+#### Comandos útiles
+```bash
+kubectl get namespaces
+```
+Lista todos los `namespaces` disponibles en el clúster.
+
+```bash
+kubectl create namespace <nombre>
+```
+Crea un `namespace` con el nombre indicado.
+
+```bash
+kubectl delete namespace <nombre>
+```
+Elimina un `namespace` y todos los recursos que contiene.  
+⚠️ ¡CUIDADO! ⚠️ => Se eliminan todos los recursos dentro del namespace.
+
+```bash
+kubectl apply -f <archivo>.yaml -n <namespace>
+```
+Aplica un archivo YAML en el `namespace` indicado.
+
+```bash
+kubectl get all -n <namespace>
+```
+Muestra todos los recursos dentro del `namespace` indicado.
+
+```bash
+kubectl config set-context --current --namespace=<nombre>
+```
+Configura el `namespace` por defecto para tu contexto actual.
+
+---
+
+#### 🧾 Uso en archivos YAML
+Para que un recurso YAML se cree dentro de un `namespace` específico, se añade el campo en `metadata`:
+
+```yaml
+metadata:
+  name: frontend
+  namespace: desarrollo  # 👈 Define en qué namespace se creará
+```
+
+---
+
+#### 🧠 Notas
+- Si no se indica ningún `namespace`, se usa el espacio por defecto: `default`.
+- Puedes tener recursos con el mismo nombre en diferentes namespaces sin conflicto.
+- Es buena práctica usar namespaces distintos para separar entornos o equipos.
 
 ---
 
